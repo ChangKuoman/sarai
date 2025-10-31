@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // API Gateway url to invoke function to generate presigned url
+  const API_ENDPOINT = "http://localhost:5000/api/generar-url-subida";
+
+  // Function to generate the presigned url
+  const getPresignedUrl = async () => {
+    // GET request: presigned URL
+    const response = await axios({
+      method: "GET",
+      url: API_ENDPOINT,
+    });
+    const presignedUrl = response.data.presignedUrl;
+    console.log(presignedUrl);
+    return presignedUrl;
+  };
+
+  // Function to upload the selected file using the generated presigned url
+  const uploadToPresignedUrl = async (presignedUrl) => {
+    // Upload file to pre-signed URL
+    const uploadResponse = await axios.put(presignedUrl, selectedFile, {
+      headers: {
+        "Content-Type": "application/png",
+      },
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setUploadProgress(percentCompleted);
+        console.log(`Upload Progress: ${percentCompleted}%`);
+      },
+    });
+    console.log(uploadResponse);
+  };
+
+  // Function to orchestrate the upload process
+  const handleUpload = async () => {
+    try {
+      // Ensure a file is selected
+      if (!selectedFile) {
+        console.error("No file selected.");
+        return;
+      }
+
+      const presignedUrl = await getPresignedUrl();
+      uploadToPresignedUrl(presignedUrl);
+    } catch (error) {
+      // Handle error
+      console.error("Error uploading file:", error);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <h1>File Selection Component</h1>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
