@@ -13,15 +13,14 @@ function App() {
     setSelectedFile(event.target.files[0]);
   };
 
-  // API Gateway url to invoke function to generate presigned url
-  const API_ENDPOINT = "http://localhost:5000/api/generar-url-subida";
+  const BASE_URL = "schang.pythonanywhere.com";
 
   // Function to generate the presigned url
   const getPresignedUrl = async () => {
     // GET request: presigned URL
     const response = await axios({
       method: "GET",
-      url: API_ENDPOINT,
+      url: BASE_URL + "/api/generar-url-subida",
     });
     const presignedUrl = response.data.presignedUrl;
     const key = response.data.key;
@@ -61,7 +60,7 @@ function App() {
       uploadToPresignedUrl(presignedUrl);
 
       // After successful upload, send POST request with metadata
-      const response = await axios.post('http://localhost:5000/api/items', {
+      const response = await axios.post(BASE_URL + "/api/items", {
         date,
         title,
         description,
@@ -79,7 +78,7 @@ function App() {
   // ---------------------------
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/items");
+      const response = await axios.get(BASE_URL + "/api/items");
       console.log("Data received:", response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
