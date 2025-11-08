@@ -28,8 +28,15 @@ function Book() {
       maxShadowOpacity={0.5}
       drawShadow={true}
       showCover={true}
+      usePortrait={false}
       size='fixed'
     >
+
+      <div className="page" style={{ background: 'transparent' }}>
+        <div className="page-content cover">
+          <h1>TITLE</h1>
+        </div>
+      </div>
 
       {data.map((item) => (
         <div className="page" key={item.uuid}>
@@ -41,6 +48,7 @@ function Book() {
                 <p className="item-date">{item.Date}</p>
                 <img
                     className="item-image"
+                    src={`${item.ImageUrl}`}
                     alt={item.Title}
                 />
 

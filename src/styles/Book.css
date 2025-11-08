@@ -18,11 +18,11 @@
 
 .item-image {
     width: 100%;
-    max-width: 300px;
+    max-width: 200px;
     height: auto;
     margin-top: 10px;
 }
 
 .page{
-    background-color: white;
+    background-color: aquamarine;
 }
