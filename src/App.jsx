@@ -12,7 +12,6 @@ function App() {
   return (
     <div className="App">
       <h1>Sam y Saraí</h1>
-
       <div className="container">
           <Book />
       </div>
