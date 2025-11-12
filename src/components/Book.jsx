@@ -34,29 +34,38 @@ function Book() {
 
       <div className="page" style={{ background: 'transparent' }}>
         <div className="page-content cover">
-          <h1>La historia de Sam y Saraí</h1>
+          <h1 className='cover-title'>La historia de Sam y Saraí</h1>
+          <img
+            className="cover-image"
+            src="/src/assets/cover_image.jpg"
+            alt="Cover"
+          />
         </div>
       </div>
 
       {data
         .slice()
         .sort((a, b) => (Date.parse(a.Date) || 0) - (Date.parse(b.Date) || 0))
-        .map((item) => (
-          <div className="page" key={item.uuid}>
+        .flatMap((item) => [
+          <div className="page left" key={`${item.uuid}-left`}>
             <div className="page-content">
-              <div className="item-container">
-                <h2 className="item-title">{item.Title}</h2>
-                <p className="item-description">{item.Description}</p>
+               <h2 className="item-title">{item.Title}</h2>
                 <p className="item-date">{item.Date}</p>
                 <img
                   className="item-image"
                   src={`${item.ImageUrl}`}
                   alt={item.Title}
                 />
-              </div>
+            </div>
+          </div>,
+          <div className="page right" key={`${item.uuid}-right`}>
+            <div className="page-content">
+              <p className="item-description">Saraí<br/>{item.Description}</p>
+              <p className="item-description">Sam<br/>{item.Description}</p>
             </div>
           </div>
-      ))}
+        ])}
+
     </HTMLFlipBook>
   );
 }

@@ -1,7 +1,48 @@
+/* GENERAL BOOK */
+.page{
+    background-color: red;
+}
+
+.page-content{
+    background-color: whitesmoke;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+
+.right {
+    background-color: blueviolet;
+}
+
+/* COVER */
+.cover-title{
+    color: black;
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0px;
+}
+
+.cover {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cover-image {
+    width: 80%;
+    max-height: 80%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* ITEMS */
 .item-title {
     color: black;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: bold;
+    margin: 0px;
 }
 
 .item-description {
@@ -17,12 +58,9 @@
 }
 
 .item-image {
-    width: 100%;
+    width: 80%;
+    max-height: 60%;
     max-width: 200px;
     height: auto;
     margin-top: 10px;
-}
-
-.page{
-    background-color: lightcoral;
 }
